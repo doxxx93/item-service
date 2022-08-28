@@ -63,8 +63,8 @@ public class BasicItemController {
         return "basic/item";
     }
 
-//    @PostMapping("/add")
-    public String saveV3(@ModelAttribute Item item, Model model) {
+    //    @PostMapping("/add")
+    public String addItemV3(@ModelAttribute Item item, Model model) {
         // 생략하면 모델에 저장될 때 클래스명에서 첫 글자를 소문자로 변경해 등록한다.
         itemRepository.save(item);
         //model.addAttribute("item", save);
@@ -72,11 +72,25 @@ public class BasicItemController {
         return "basic/item";
     }
 
-    @PostMapping("/add")
-    public String saveV4(Item item) {
+    //    @PostMapping("/add")
+    public String addItemV4(Item item) {
         itemRepository.save(item);
 
         return "basic/item";
+    }
+
+    /**
+     * PRG - Post/Redirect/Get
+     * <p>
+     * "redirect:/basic/items/" + item.getId() redirect에서 +item.getId() 처럼 URL에 변수를 더해서 사용하는 것은 URL
+     * 인코딩이 안되기 때문에 위험하다.
+     * <p>
+     * 다음에 설명하는 RedirectAttributes 를 사용하자.
+     */
+    @PostMapping("/add")
+    public String addItemV5(Item item) {
+        itemRepository.save(item);
+        return "redirect:/basic/items/" + item.getId();
     }
 
     @GetMapping("/{itemId}/edit")
